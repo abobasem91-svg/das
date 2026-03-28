@@ -3,18 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تطبيق مشاريع 2026</title>
+    <title>لوحة مشاريع قويم 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #316f7a; --accent: #4a8e9b; --bg: #f8fafb; }
         body { font-family: 'Tajawal', sans-serif; background: var(--bg); margin: 0; padding: 0; }
         .header { background: var(--primary); color: white; padding: 25px; text-align: center; border-bottom-left-radius: 25px; border-bottom-right-radius: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .container { padding: 15px; max-width: 600px; margin: 0 auto; } /* تم تصحيح المسافة هنا */
-        .project-card { background: white; border-radius: 15px; padding: 18px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-right: 6px solid var(--accent); }
-        .title { font-weight: bold; color: var(--primary); font-size: 1.1rem; margin-bottom: 10px; }
-        .detail { display: flex; justify-content: space-between; font-size: 0.9rem; color: #555; margin-bottom: 5px; }
-        .status { font-size: 0.8rem; background: #e0ecee; color: var(--primary); padding: 4px 12px; border-radius: 20px; font-weight: bold; margin-top: 10px; display: inline-block; }
+        .container { padding: 15px; max-width: 800px; margin: 0 auto; }
+        .project-card { background: white; border-radius: 15px; padding: 20px; margin-bottom: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-right: 8px solid var(--accent); display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .project-header { grid-column: span 2; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px; }
+        .title { font-weight: bold; color: var(--primary); font-size: 1.2rem; }
+        .info-box { display: flex; flex-direction: column; }
+        .label { font-size: 0.8rem; color: #888; font-weight: bold; }
+        .value { font-size: 0.95rem; color: #333; margin-top: 3px; }
         #msg { font-size: 0.8rem; opacity: 0.9; margin-top: 5px; }
+        .loading { text-align: center; padding: 50px; color: var(--primary); }
     </style>
 </head>
 <body>
@@ -22,7 +25,9 @@
         <h2>حالة مشاريع 2026</h2>
         <div id="msg">جاري مزامنة بيانات "قويم"...</div>
     </div>
-    <div class="container" id="app-container"></div>
+    <div class="container" id="app-container">
+        <div class="loading">جاري تحميل البيانات من الإكسل...</div>
+    </div>
 
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzHM3STSvLL2K7OhYvk1nhJB_moM5QbjTsJ9b5cEkqrwE6gBgsepymif0adty7Hr6Gx/exec";
@@ -35,17 +40,31 @@
                 
                 let html = '';
                 data.forEach(item => {
+                    // هنا نربط الكود بمسميات الأعمدة في الإكسل الخاص بك
                     html += `
                         <div class="project-card">
-                            <div class="title">${item.title}</div>
-                            <div class="detail"><span>👤 مدير المشروع:</span> <b>${item.manager}</b></div>
-                            <div class="detail"><span>🤝 الشريك:</span> <b>${item.partner}</b></div>
-                            <div class="status">${item.status}</div>
+                            <div class="project-header">
+                                <div class="label">اسم المشروع</div>
+                                <div class="title">${item["اسم المشروع"] || '---'}</div>
+                            </div>
+                            <div class="info-box">
+                                <span class="label">👤 مدير المشروع</span>
+                                <span class="value">${item["مدير المشروع"] || '---'}</span>
+                            </div>
+                            <div class="info-box">
+                                <span class="label">🤝 الشريك</span>
+                                <span class="value">${item["الشريك"] || '---'}</span>
+                            </div>
+                            <div class="info-box" style="grid-column: span 2; margin-top: 5px; background: #f0f7f8; padding: 10px; border-radius: 8px;">
+                                <span class="label">🎯 الهدف التشغيلي</span>
+                                <span class="value">${item["الهدف التشغيلي"] || '---'}</span>
+                            </div>
                         </div>`;
                 });
                 document.getElementById('app-container').innerHTML = html;
             } catch (error) {
-                document.getElementById('msg').innerText = "خطأ في الاتصال بالإكسل ❌";
+                document.getElementById('msg').innerText = "خطأ في الاتصال ❌";
+                document.getElementById('app-container').innerHTML = '<p style="text-align:center;">تعذر جلب البيانات. تأكد من أن أسماء الأعمدة في الإكسل مطابقة.</p>';
             }
         }
         fetchProjects();
