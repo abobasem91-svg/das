@@ -1,15 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>بيانات المشاريع</title>
+</head>
+
+<body>
+
+<h2>بيانات المشاريع</h2>
+
+<table border="1" id="table"></table>
+
 <script>
-fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vQXWJt5MLphpcIZtzEW_s5wrr6ILhSOWQYfZM9pfqhvCbBiQ2Z8vC1k3o7EQgMvatR1jy5iVCZiI08T/pub?gid=1389583934&single=true&output=csv")
+
+fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vQXWJt5MLphpclZtzEW_s5wrr6ILhSOWQYfZM9pfqhvCbBiQ2Z8vC1k3o7EQgMvatR1jyi5viCZIiO8T/pub?gid=1389583934&single=true&output=csv")
 .then(res => res.text())
 .then(data => {
 
 const rows = data.split("\n")
+const table = document.getElementById("table")
 
 rows.forEach(row => {
+
 const cols = row.split(",")
-console.log(cols)
+
+let tr = "<tr>"
+
+cols.forEach(col=>{
+tr += "<td>"+col+"</td>"
+})
+
+tr += "</tr>"
+
+table.innerHTML += tr
 
 })
 
 })
+
 </script>
+
+</body>
+</html>
