@@ -3,96 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة متابعة مشاريع قويم 2026</title>
+    <title>نظام متابعة مشاريع قويم 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #1e4d56; --accent: #d4a373; --bg: #f0f4f5; }
+        :root { --primary: #1e4d56; --accent: #d4a373; --bg: #f4f7f8; }
         body { font-family: 'Tajawal', sans-serif; background: var(--bg); margin: 0; padding: 0; color: #333; }
-        .header { background: linear-gradient(135deg, var(--primary), #2c6e7a); color: white; padding: 25px; text-align: center; border-bottom-left-radius: 25px; border-bottom-right-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); sticky; top: 0; z-index: 100; }
-        .stats-dashboard { display: flex; justify-content: center; gap: 10px; padding: 15px; margin: -15px 15px 20px; }
-        .stat-card { background: white; padding: 10px 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; min-width: 100px; }
-        .stat-v { display: block; font-size: 1.3rem; font-weight: bold; color: var(--primary); }
-        .stat-l { font-size: 0.75rem; color: #777; }
-        .container { padding: 10px; max-width: 800px; margin: 0 auto; }
-        .p-card { background: white; border-radius: 15px; padding: 20px; margin-bottom: 15px; border-right: 8px solid var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
-        .p-title { color: var(--primary); font-weight: bold; font-size: 1.15rem; margin-bottom: 15px; border-bottom: 1px solid #f0f0f0; padding-bottom: 10px; line-height: 1.4; }
-        .p-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .p-item { display: flex; flex-direction: column; }
-        .p-label { font-size: 0.75rem; color: #888; font-weight: bold; margin-bottom: 2px; }
-        .p-value { font-size: 0.95rem; color: #333; }
-        .p-target { grid-column: span 2; background: #f9f9f9; padding: 10px; border-radius: 10px; border: 1px solid #eee; margin-top: 5px; }
-        .status-badge { grid-column: span 2; text-align: center; padding: 8px; border-radius: 10px; font-weight: bold; font-size: 0.85rem; margin-top: 5px; }
-        .loading { text-align: center; padding: 100px; font-weight: bold; color: var(--primary); }
+        .header { background: linear-gradient(135deg, var(--primary), #2c6e7a); color: white; padding: 25px; text-align: center; border-bottom-left-radius: 30px; border-bottom-right-radius: 30px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .search-area { padding: 20px; max-width: 900px; margin: 0 auto; }
+        #search { width: 100%; padding: 15px; border-radius: 15px; border: 1px solid #ddd; font-family: 'Tajawal'; font-size: 1rem; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .container { padding: 15px; max-width: 950px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; }
+        .card { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.06); border-right: 10px solid var(--accent); transition: 0.3s; display: flex; flex-direction: column; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 25px rgba(0,0,0,0.1); }
+        .title { color: var(--primary); font-weight: bold; font-size: 1.25rem; margin-bottom: 15px; border-bottom: 2px solid #f0f4f5; padding-bottom: 10px; min-height: 3.5em; display: flex; align-items: center; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .label { font-size: 0.75rem; color: #888; font-weight: bold; text-transform: uppercase; }
+        .value { font-size: 1rem; color: #444; font-weight: 500; }
+        .target-box { grid-column: span 2; background: #fdfaf6; padding: 12px; border-radius: 12px; border: 1px solid #faece0; margin-top: 5px; }
+        .progress-container { grid-column: span 2; margin-top: 15px; }
+        .progress-bar { background: #eee; height: 10px; border-radius: 5px; overflow: hidden; margin-top: 5px; }
+        .progress-fill { background: var(--primary); height: 100%; transition: 0.5s; }
+        .badge { display: inline-block; padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; margin-top: 10px; text-align: center; }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <h2 style="margin:0;">لوحة مشاريع قويم 2026</h2>
-    <span id="status" style="font-size:0.8rem; opacity:0.8;">جاري جلب البيانات...</span>
+    <h2 style="margin:0;">منصة متابعة مشاريع قويم 2026</h2>
+    <div id="stats" style="font-size: 0.9rem; margin-top: 8px;">جاري المزامنة مع الإكسل...</div>
 </div>
 
-<div class="stats-dashboard" id="stats">
-    <div class="stat-card"><span class="stat-v" id="count">--</span><span class="stat-l">إجمالي المشاريع</span></div>
-    <div class="stat-card"><span class="stat-v">2026</span><span class="stat-l">عام المبادرة</span></div>
+<div class="search-area">
+    <input type="text" id="search" placeholder="ابحث باسم المشروع، المدير، أو الشريك..." onkeyup="doSearch()">
 </div>
 
-<div class="container" id="content">
-    <div class="loading">بديع الروح.. يتم الآن مطابقة البيانات مع الإكسل</div>
+<div class="container" id="app">
+    <div style="grid-column: span 2; text-align:center; padding:50px;">بديع الروح.. جاري ترتيب بيانات 78 مشروعاً...</div>
 </div>
 
 <script>
-    const URL = "https://script.google.com/macros/s/AKfycbzHM3STSvLL2K7OhYvk1nhJB_moM5QbjTsJ9b5cEkqrwE6gBgsepymif0adty7Hr6Gx/exec";
+    const SCRIPT_URL = "ضع_رابط_السكربت_الجديد_هنا"; 
+    let projectsData = [];
 
-    async function fetchData() {
+    async function load() {
         try {
-            const res = await fetch(URL);
-            const data = await res.json();
-            
-            if (!data || data.length === 0) throw "No data";
-
-            document.getElementById('status').innerText = "مزامنة حية ✅";
-            document.getElementById('count').innerText = data.length;
-
-            let html = '';
-            data.forEach(row => {
-                // وظيفة ذكية للبحث عن القيمة حتى لو اختلف اسم العمود قليلاً
-                const getV = (keys) => {
-                    const foundKey = Object.keys(row).find(k => keys.some(key => k.includes(key)));
-                    return (foundKey && row[foundKey] && row[foundKey] !== "undefined") ? row[foundKey] : "---";
-                };
-
-                const name = getV(["اسم المشروع"]);
-                const manager = getV(["مدير المشروع"]);
-                const partner = getV(["الشريك"]);
-                const target = getV(["الهدف التشغيلي"]);
-                const delay = getV(["أيام التأخير"]);
-                const firstPay = getV(["الدفعة الأولى"]);
-
-                // تحديد لون التأخير
-                let delayColor = "#e6f9f0", delayText = "#2d9d78", delayLabel = "في موعده ✅";
-                if (parseInt(delay) > 0) { delayColor = "#fffbeb"; delayText = "#f1a340"; delayLabel = `تأخير ${delay} يوم ⚠️`; }
-                if (parseInt(delay) > 15) { delayColor = "#fbeeea"; delayText = "#d9534f"; delayLabel = `تأخير حاد ${delay} يوم ⛔`; }
-
-                html += `
-                    <div class="p-card">
-                        <div class="p-title">${name}</div>
-                        <div class="p-grid">
-                            <div class="p-item"><span class="p-label">مدير المشروع 👤</span><span class="p-value">${manager}</span></div>
-                            <div class="p-item"><span class="p-label">الشريك 🤝</span><span class="p-value">${partner}</span></div>
-                            <div class="p-target"><span class="p-label">الهدف التشغيلي 🎯</span><span class="p-value" style="display:block; margin-top:3px; font-size:0.85rem;">${target}</span></div>
-                            <div class="p-item"><span class="p-label">الدفعة الأولى 💰</span><span class="p-value">${firstPay}</span></div>
-                            <div class="status-badge" style="background:${delayColor}; color:${delayText}; border:1px solid ${delayText}33;">${delayLabel}</div>
-                        </div>
-                    </div>`;
-            });
-            document.getElementById('content').innerHTML = html;
+            const res = await fetch(SCRIPT_URL);
+            projectsData = await res.json();
+            document.getElementById('stats').innerText = `تم تحديث ${projectsData.length} مشروعاً بنجاح ✅`;
+            render(projectsData);
         } catch (e) {
-            document.getElementById('status').innerText = "خطأ في المزامنة ❌";
-            document.getElementById('content').innerHTML = "<p style='text-align:center; padding:50px;'>تأكد من مسميات الأعمدة في الإكسل أو إعادة نشر السكربت.</p>";
+            document.getElementById('stats').innerText = "خطأ في جلب البيانات ❌";
         }
     }
-    fetchData();
+
+    function render(data) {
+        let html = '';
+        data.forEach(p => {
+            const get = (key) => {
+                const found = Object.keys(p).find(k => k.includes(key));
+                return (found && p[found] && p[found] !== "undefined") ? p[found] : "---";
+            };
+
+            const delay = parseInt(get("أيام التأخير")) || 0;
+            const progress = parseFloat(get("نسبة الإنجاز")) * 100 || 0;
+
+            html += `
+                <div class="card">
+                    <div class="title">${get("اسم المشروع")}</div>
+                    <div class="info-grid">
+                        <div class="info-item"><div class="label">مدير المشروع 👤</div><div class="value">${get("مدير المشروع")}</div></div>
+                        <div class="info-item"><div class="label">الشريك 🤝</div><div class="value">${get("الشريك")}</div></div>
+                        <div class="target-box"><div class="label">الهدف التشغيلي 🎯</div><div class="value" style="font-size:0.85rem;">${get("الهدف التشغيلي")}</div></div>
+                        <div class="progress-container">
+                            <div class="label">نسبة الإنجاز: ${progress.toFixed(0)}%</div>
+                            <div class="progress-bar"><div class="progress-fill" style="width:${progress}%"></div></div>
+                        </div>
+                        <div class="badge" style="background:${delay > 0 ? '#fbeeea' : '#e6f9f0'}; color:${delay > 0 ? '#d9534f' : '#2d9d78'}; grid-column: span 2;">
+                            ${delay > 0 ? 'تأخير: ' + delay + ' يوم' : 'في المسار الصحيح ✅'}
+                        </div>
+                    </div>
+                </div>`;
+        });
+        document.getElementById('app').innerHTML = html;
+    }
+
+    function doSearch() {
+        const q = document.getElementById('search').value.toLowerCase();
+        const filtered = projectsData.filter(p => JSON.stringify(p).toLowerCase().includes(q));
+        render(filtered);
+    }
+
+    load();
 </script>
 </body>
 </html>
