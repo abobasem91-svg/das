@@ -6,208 +6,93 @@
     <title>منصة متابعة مشاريع قويم 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --primary: #1e4d56; /* لون قويم الرئيسي */
-            --accent: #d4a373;  /* لون ذهبي فاتح للتألق */
-            --bg: #f8fafc;       /* خلفية نظيفة جداً */
-            --card-bg: #ffffff;  /* لون البطاقات */
-            --text-main: #333333; /* لون النص الأساسي */
-            --text-label: #777777; /* لون التسميات */
-            --success: #2d9d78;   /* أخضر للنجاح */
-            --warning: #f1a340;   /* برتقالي للتحذير */
-            --danger: #d9534f;    /* أحمر للخطر */
-        }
-        
-        body { font-family: 'Tajawal', sans-serif; background: var(--bg); margin: 0; padding: 0; color: var(--text-main); }
-        
-        /* الهيدر الحديث */
-        .header { 
-            background: linear-gradient(135deg, var(--primary), #316f7a); 
-            color: white; 
-            padding: 30px; 
-            text-align: center; 
-            border-bottom-left-radius: 30px; 
-            border-bottom-right-radius: 30px; 
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1); 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000;
-        }
-        .header h2 { margin: 0; font-size: 1.5rem; font-weight: bold; }
-        #sync-status { font-size: 0.8rem; margin-top: 5px; opacity: 0.9; display: block; }
-        
-        /* لوحة الإحصائيات العصرية */
-        .stats-dashboard { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); 
-            gap: 15px; 
-            padding: 15px; 
-            background: white; 
-            margin: -20px 20px 25px 20px; 
-            border-radius: 20px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-        }
-        .stat-item { 
-            text-align: center; 
-            padding: 15px; 
-            border-radius: 15px; 
-            background: #fdfdfd; 
-            border: 1px solid #f0f0f0; 
-            transition: all 0.3s ease; 
-        }
-        .stat-item:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.03); }
-        .stat-value { display: block; font-size: 1.4rem; font-weight: bold; color: var(--primary); margin-bottom: 3px; }
-        .stat-label { font-size: 0.7rem; color: var(--text-label); letter-spacing: 0.3px; }
-        .stat-icon { font-size: 1rem; color: var(--accent); margin-bottom: 5px; opacity: 0.8; }
-        
-        /* حاوية المشاريع */
-        .container { padding: 10px; max-width: 950px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 15px; }
-        @media(min-width: 600px) { .container { grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); } }
-        
-        /* البطاقة الإبداعية للمشروع */
-        .project-card { 
-            background: var(--card-bg); 
-            border-radius: 16px; 
-            padding: 20px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
-            position: relative; 
-            border-right: 8px solid var(--accent); 
-            overflow: hidden;
-            display: flex; flex-direction: column;
-        }
-        .project-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
-        
-        /* اسم المشروع (أبرز شيء) */
-        .project-title { 
-            color: var(--primary); 
-            font-weight: bold; 
-            font-size: 1.2rem; 
-            line-height: 1.4; 
-            margin-bottom: 15px; 
-            padding-bottom: 12px; 
-            border-bottom: 1px solid #f0f0f0; 
-        }
-        
-        /* تقسيم محتوى البطاقة */
-        .card-body { display: grid; grid-template-columns: 1fr 1fr; gap: 15px 10px; flex-grow: 1; }
-        .info-group { display: flex; flex-direction: column; }
-        .full-width { grid-column: span 2; }
-        
-        /* التسميات والقيم */
-        .label { font-size: 0.7rem; color: var(--text-label); text-transform: uppercase; font-weight: bold; margin-bottom: 3px; }
-        .value { font-size: 0.95rem; font-weight: 500; color: #333; }
-        .highlight { color: var(--accent); font-weight: bold; }
-        
-        /* صندوق الهدف التشغيلي */
-        .target-box { background: #fdfdfd; padding: 10px; border-radius: 8px; border: 1px dashed #e0e0e0; margin-top: 5px; }
-        
-        /* شارة أيام التأخير (تتغير بالألوان) */
-        .delay-badge { 
-            grid-column: span 2; 
-            padding: 8px 15px; 
-            border-radius: 10px; 
-            font-weight: bold; 
-            text-align: center; 
-            font-size: 0.85rem; 
-            margin-top: 10px; 
-            display: inline-block;
-        }
-        
-        /* تحميل البيانات */
-        .loading { text-align: center; padding: 100px; color: var(--primary); font-weight: bold; font-size: 1.1rem; }
+        :root { --primary: #1e4d56; --accent: #d4a373; --bg: #f0f4f5; }
+        body { font-family: 'Tajawal', sans-serif; background: var(--bg); margin: 0; padding: 0; color: #333; }
+        .header { background: linear-gradient(135deg, var(--primary), #2c6e7a); color: white; padding: 25px; text-align: center; border-bottom-left-radius: 25px; border-bottom-right-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); sticky; top: 0; z-index: 100; }
+        .stats-dashboard { display: flex; justify-content: center; gap: 10px; padding: 15px; margin: -15px 15px 20px; }
+        .stat-card { background: white; padding: 10px 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; min-width: 100px; }
+        .stat-v { display: block; font-size: 1.3rem; font-weight: bold; color: var(--primary); }
+        .stat-l { font-size: 0.75rem; color: #777; }
+        .container { padding: 10px; max-width: 800px; margin: 0 auto; }
+        .p-card { background: white; border-radius: 15px; padding: 20px; margin-bottom: 15px; border-right: 8px solid var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+        .p-title { color: var(--primary); font-weight: bold; font-size: 1.15rem; margin-bottom: 15px; border-bottom: 1px solid #f0f0f0; padding-bottom: 10px; line-height: 1.4; }
+        .p-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .p-item { display: flex; flex-direction: column; }
+        .p-label { font-size: 0.75rem; color: #888; font-weight: bold; margin-bottom: 2px; }
+        .p-value { font-size: 0.95rem; color: #333; }
+        .p-target { grid-column: span 2; background: #f9f9f9; padding: 10px; border-radius: 10px; border: 1px solid #eee; margin-top: 5px; }
+        .status-badge { grid-column: span 2; text-align: center; padding: 8px; border-radius: 10px; font-weight: bold; font-size: 0.85rem; margin-top: 5px; }
+        .loading { text-align: center; padding: 100px; font-weight: bold; color: var(--primary); }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h2>نظام قويم متابعة مشاريع 2026</h2>
-        <div id="sync-status">جاري المزامنة مع الإكسل...</div>
-    </div>
 
-    <div class="stats-dashboard" id="stats-container">
-        </div>
+<div class="header">
+    <h2 style="margin:0;">لوحة مشاريع قويم 2026</h2>
+    <span id="status" style="font-size:0.8rem; opacity:0.8;">جاري جلب البيانات...</span>
+</div>
 
-    <div class="container" id="app-container">
-        <div class="loading">بديع الروح.. جارٍ بناء المنصة الآن</div>
-    </div>
+<div class="stats-dashboard" id="stats">
+    <div class="stat-card"><span class="stat-v" id="count">--</span><span class="stat-l">إجمالي المشاريع</span></div>
+    <div class="stat-card"><span class="stat-v">2026</span><span class="stat-l">عام المبادرة</span></div>
+</div>
 
-    <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzHM3STSvLL2K7OhYvk1nhJB_moM5QbjTsJ9b5cEkqrwE6gBgsepymif0adty7Hr6Gx/exec";
+<div class="container" id="content">
+    <div class="loading">بديع الروح.. يتم الآن مطابقة البيانات مع الإكسل</div>
+</div>
 
-        // تنسيق العملات والأرقام (مثال: 1,000,000 ريال)
-        function formatCurrency(num) {
-            if (!num || isNaN(num)) return "---";
-            return new Intl.NumberFormat('ar-SA', { style: 'currency', currency: 'SAR', minimumFractionDigits: 0 }).format(num);
+<script>
+    const URL = "https://script.google.com/macros/s/AKfycbzHM3STSvLL2K7OhYvk1nhJB_moM5QbjTsJ9b5cEkqrwE6gBgsepymif0adty7Hr6Gx/exec";
+
+    async function fetchData() {
+        try {
+            const res = await fetch(URL);
+            const data = await res.json();
+            
+            if (!data || data.length === 0) throw "No data";
+
+            document.getElementById('status').innerText = "مزامنة حية ✅";
+            document.getElementById('count').innerText = data.length;
+
+            let html = '';
+            data.forEach(row => {
+                // وظيفة ذكية للبحث عن القيمة حتى لو اختلف اسم العمود قليلاً
+                const getV = (keys) => {
+                    const foundKey = Object.keys(row).find(k => keys.some(key => k.includes(key)));
+                    return (foundKey && row[foundKey] && row[foundKey] !== "undefined") ? row[foundKey] : "---";
+                };
+
+                const name = getV(["اسم المشروع"]);
+                const manager = getV(["مدير المشروع"]);
+                const partner = getV(["الشريك"]);
+                const target = getV(["الهدف التشغيلي"]);
+                const delay = getV(["أيام التأخير"]);
+                const firstPay = getV(["الدفعة الأولى"]);
+
+                // تحديد لون التأخير
+                let delayColor = "#e6f9f0", delayText = "#2d9d78", delayLabel = "في موعده ✅";
+                if (parseInt(delay) > 0) { delayColor = "#fffbeb"; delayText = "#f1a340"; delayLabel = `تأخير ${delay} يوم ⚠️`; }
+                if (parseInt(delay) > 15) { delayColor = "#fbeeea"; delayText = "#d9534f"; delayLabel = `تأخير حاد ${delay} يوم ⛔`; }
+
+                html += `
+                    <div class="p-card">
+                        <div class="p-title">${name}</div>
+                        <div class="p-grid">
+                            <div class="p-item"><span class="p-label">مدير المشروع 👤</span><span class="p-value">${manager}</span></div>
+                            <div class="p-item"><span class="p-label">الشريك 🤝</span><span class="p-value">${partner}</span></div>
+                            <div class="p-target"><span class="p-label">الهدف التشغيلي 🎯</span><span class="p-value" style="display:block; margin-top:3px; font-size:0.85rem;">${target}</span></div>
+                            <div class="p-item"><span class="p-label">الدفعة الأولى 💰</span><span class="p-value">${firstPay}</span></div>
+                            <div class="status-badge" style="background:${delayColor}; color:${delayText}; border:1px solid ${delayText}33;">${delayLabel}</div>
+                        </div>
+                    </div>`;
+            });
+            document.getElementById('content').innerHTML = html;
+        } catch (e) {
+            document.getElementById('status').innerText = "خطأ في المزامنة ❌";
+            document.getElementById('content').innerHTML = "<p style='text-align:center; padding:50px;'>تأكد من مسميات الأعمدة في الإكسل أو إعادة نشر السكربت.</p>";
         }
-
-        // تحديد لون أيام التأخير بناءً على القيمة
-        function getDelayStatus(days) {
-            if (!days || isNaN(days)) return { text: "---", color: "#eee", textColor: "#666" };
-            if (days > 15) return { text: `تأخير حاد: ${days} يوم ⛔️`, color: "#fbeeea", textColor: "var(--danger)" };
-            if (days > 0) return { text: `تأخير: ${days} يوم ⚠️`, color: "#fffbeb", textColor: "var(--warning)" };
-            if (days === 0) return { text: "في الجدول المعتمد ✅", color: "#e6f9f0", textColor: "var(--success)" };
-            return { text: `متقدم: ${Math.abs(days)} يوم 🚀`, color: "#e6f9f0", textColor: "var(--success)" };
-        }
-
-        async function loadDashboard() {
-            try {
-                const response = await fetch(SCRIPT_URL);
-                const data = await response.json();
-                
-                // حساب الإحصائيات تلقائياً
-                const totalProjects = data.length;
-                
-                // تحديث لوحة الإحصائيات البديعة
-                document.getElementById('stats-container').innerHTML = `
-                    <div class="stat-item"><span class="stat-value">${totalProjects}</span><span class="stat-label">المشاريع</span></div>
-                    <div class="stat-item"><span class="stat-value">2026</span><span class="stat-label">العام</span></div>
-                `;
-
-                document.getElementById('sync-status').innerText = "تحديث حي ومباشر من الإكسل ✅";
-                
-                let html = '';
-                data.forEach(item => {
-                    // دالة للتأكد من عدم ظهور undefined
-                    const clean = (val) => (val && val !== "undefined") ? val : "---";
-                    
-                    // تحليل أيام التأخير
-                    const delayInfo = getDelayStatus(parseInt(item["أيام التأخير"]));
-
-                    html += `
-                        <div class="project-card">
-                            <div class="project-title">${clean(item["اسم المشروع"])}</div>
-                            
-                            <div class="card-body">
-                                <div class="info-group">
-                                    <span class="label">مدير المشروع 👤</span>
-                                    <span class="value">${clean(item["مدير المشروع"])}</span>
-                                </div>
-                                
-                                <div class="info-group">
-                                    <span class="label">الشريك 🤝</span>
-                                    <span class="value highlighting">${clean(item["الشريك"])}</span>
-                                </div>
-                                
-                                <div class="info-group full-width">
-                                    <div class="target-box">
-                                        <span class="label">الهدف التشغيلي 🎯</span>
-                                        <span class="value" style="display:block; margin-top:4px; font-size:0.85rem;">${clean(item["الهدف التشغيلي"])}</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="delay-badge" style="background:${delayInfo.color}; color:${delayInfo.textColor};">
-                                    ${delayInfo.text}
-                                </div>
-                            </div>
-                        </div>`;
-                });
-                document.getElementById('app-container').innerHTML = html;
-            } catch (e) {
-                document.getElementById('sync-status').innerText = "فشلت المزامنة البديعة ❌";
-                document.getElementById('app-container').innerHTML = "<div class='loading' style='color:red;'>عذراً يا بسام.. حدث خطأ في بناء اللوحة.</div>";
-            }
-        }
-        loadDashboard();
-    </script>
+    }
+    fetchData();
+</script>
 </body>
 </html>
